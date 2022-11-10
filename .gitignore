@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,java,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,java,eclipse
 
+# 이 레파지토리만 특별히 제거할 것
+bin/
+src/
+
 ### Eclipse ###
 .metadata
 bin/
