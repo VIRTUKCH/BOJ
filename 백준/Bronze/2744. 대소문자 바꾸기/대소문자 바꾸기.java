@@ -14,7 +14,6 @@ public class Main {
 				str[i] += 32;
 			}
 		}
-		str.toString();
 		System.out.println(str);
 	}
 }
