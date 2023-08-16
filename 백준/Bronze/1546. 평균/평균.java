@@ -1,24 +1,22 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		br.readLine();
-		double highScore = 0;
+		int n = Integer.parseInt(br.readLine());
 
-		String[] strArr = br.readLine().split(" ");
+		StringTokenizer st = new StringTokenizer(br.readLine(), "+ ");
 
-		for (int index = 0; index < strArr.length; index++) { // 최대값 구하기
-			highScore = Integer.parseInt(strArr[index]) > highScore ? Integer.parseInt(strArr[index]) : highScore;
+		double sum = 0, max = 0;
+		for (int i = 0; i < n; i++) {
+			double num = Double.parseDouble(st.nextToken());
+			sum += num;
+			if (num > max) {
+				max = num;
+			}
 		}
-
-		double sum = 0;
-		for (int index = 0; index < strArr.length; index++) {
-			sum += (Integer.parseInt(strArr[index]) / highScore) * 100;
-		}
-
-		System.out.println(sum / strArr.length);
+		System.out.println((sum * 100 / max / n));
 	}
 }
