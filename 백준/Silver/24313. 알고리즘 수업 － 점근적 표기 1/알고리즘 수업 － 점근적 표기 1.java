@@ -11,7 +11,8 @@ public class Main {
         int gn = Integer.parseInt(br.readLine());
         int n = Integer.parseInt(br.readLine());
 
-        if(firstFn * n + secondFn <= gn * n && firstFn <= gn) {
+        if(firstFn * n + secondFn <= gn * n && firstFn <= gn) { // 왜 맞았는지 잘 모르겠음
+            // firstFn <= gn이 들어가는 이유에 대해 잘 알아 봐야겠음.
             System.out.println(1);
         } else {
             System.out.println(0);
