@@ -30,7 +30,7 @@ public class Main {
 
         for (int i = 0; i < N-1; i++) {
             if(!strings[i].equals(strings[i+1])) {
-                sb.append(strings[i] + "\n");
+                sb.append(strings[i]).append("\n");
             }
         }
         sb.append(strings[N-1]);
