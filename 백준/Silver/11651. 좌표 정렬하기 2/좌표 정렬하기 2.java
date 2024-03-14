@@ -23,14 +23,14 @@ class Point implements Comparable {
     @Override
     public int compareTo(Object o) {
         if (o instanceof Point) {
-            if (((Point) o).getY() < this.getY()) {
+            if (((Point) o).getY() < this.getY()) { // y가 작으면 뒤로
                 return 1;
-            } else if (((Point) o).getY() > this.getY()) {
+            } else if (((Point) o).getY() > this.getY()) { // y가 크면 앞으로
                 return -1;
             } else {
-                if (((Point) o).getX() < this.getX()) {
+                if (((Point) o).getX() < this.getX()) { // x가 작으면 뒤로
                     return 1;
-                } else {
+                } else { // x가 크면 앞으로
                     return -1;
                 }
             }
