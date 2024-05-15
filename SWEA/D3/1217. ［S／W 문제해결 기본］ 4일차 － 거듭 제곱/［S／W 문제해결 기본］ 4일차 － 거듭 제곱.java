@@ -25,6 +25,7 @@ class Solution {
 		if(m == 0) {
 			return result;
 		} else {
+			// else 문에서 return 조건을 빼 먹어서 개고생 했음... 꼭 기억하길 바람...
 			return callRecursive(result * n, n, m-1);
 		}
 	}
