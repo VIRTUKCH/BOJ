@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 // Run Shortcut => Shift + Command + Function + F11
@@ -8,51 +9,45 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = 0, M = 0;
-		N = Integer.parseInt(st.nextToken()); // 크기
-		M = Integer.parseInt(st.nextToken()); // 나누는 수 
+		int N = Integer.parseInt(st.nextToken()); // 입력의 개
+		int M = Integer.parseInt(st.nextToken()); // 나누는 
 		
-		// 1. 입력 받을 배열을 준비
-		long[] intArr = new long[N];
-
-		// 2. 입력 받기
+		// 1. 입력을 배열로 받기 
+		long[] inputArr = new long[N+1];
 		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < intArr.length; i++) {
-			intArr[i] = Long.parseLong(st.nextToken()); 
+		for (int i = 1; i < inputArr.length; i++) {
+			inputArr[i] = Long.parseLong(st.nextToken());
 		}
 		
-		// 3. 구간합 구해두기 
-		long[] S = new long[N+1];
-		for (int i = 1; i < S.length; i++) {
-			S[i] = S[i-1] + intArr[i-1];
+		// 2. 누적합 배열 만들기
+		long[] sumArr = new long[N+1];
+		for (int i = 1; i < sumArr.length; i++) {
+			sumArr[i] = sumArr[i-1] + inputArr[i]; 
 		}
-
+		
+//		System.out.println("sumArr : " + Arrays.toString(sumArr));
+		
 		long result = 0;
-		long pure = 0;
-		
-		// 5. 순회하면서 M 으로 나눠 보고, M 으로 나눠 떨어지면 (N) * (N-1) / 2 만큼 결과에 더하기
-		for (int i = 1; i < S.length; i++) {
-			S[i] = S[i] % M;
-			if(S[i] == 0) {
-				pure++;
+		// 3. 약수로 나누기 
+		for (int i = 1; i < sumArr.length; i++) {
+			sumArr[i] = sumArr[i] % M;
+			
+			// 3-1. 약수로 나눠서 0인 것들은 일단 더하기 
+			if(sumArr[i] == 0) {
+				result++;
 			}
 		}
-		// 1) M 으로 나눠지는 거 개수만큼 더
-		result += pure;
 		
-		// 2) M 끼리 연산 가능하니까 더해
-		result += pure * (pure - 1) / 2;
-				
-		// 6. 배열을 순회하면 0 ~ M 사이의 수일 거임
-		for (int i = 1; i < M; i++) { // 비교할 숫자를 먼저 정하고
-			long cnt = 0;
-			for (int j = 1; j < S.length; j++) { // 배열의 사이즈만큼 돌아 보자.
-				if (S[j] == i) {
+		// 0 ~ M 에 대해서, 나머지가 같은 것들에 대해서 두 개 씩 뽑아서 개수 더하
+		long cnt = 0;
+		for (int i = 0; i < M; i++) { // 이거는 나누고 난 나머지 
+			cnt = 0;
+			for (int j = 1; j < sumArr.length; j++) { // 이거는 배열의 길이에 따라 전수조사 
+				if (sumArr[j] == i) {
 					cnt++;
-				}
+				}	
 			}
-			// 3) 그러면 같은 것끼리 조합으로 두 개 뽑아
-			result += cnt * (cnt - 1) / 2;
+			result += cnt * (cnt-1) / 2;
 		}
 		
 		System.out.println(result);
