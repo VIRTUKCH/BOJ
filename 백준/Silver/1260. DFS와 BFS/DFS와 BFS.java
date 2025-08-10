@@ -3,74 +3,80 @@ import java.io.*;
 
 public class Main {
 
-        public static List<List<Integer>> list;
-        public static boolean[] visited;
+	public static List<List<Integer>> list;
+	public static boolean[] visited;
+	public static Queue<Integer> queue;
+	public static StringBuilder sb;
 
-        public static void main(String[] args) throws IOException {
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                StringTokenizer st = new StringTokenizer(br.readLine());
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		sb = new StringBuilder();
 
-                int n = Integer.parseInt(st.nextToken()); // vertex
-                int m = Integer.parseInt(st.nextToken()); // edge
-                int v = Integer.parseInt(st.nextToken()); // index of vertex
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+		int v = Integer.parseInt(st.nextToken());
 
-                // init list
-                list = new ArrayList<>();
-                for (int i = 0; i <= n; i++) {
-                        list.add(new ArrayList<>());
-                }
+		// init
+		list = new ArrayList<>();
+		
+		for (int i = 0; i <= n; i++) {
+			list.add(new ArrayList<>());
+		}
+		visited = new boolean[n+1];
+		queue = new LinkedList<>();
 
-                visited = new boolean[n + 1];
+		// input
+		for (int i = 0; i < m; i++) {
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 
-                // get input and init list
-                for (int i = 0; i < m; i++) {
-                        st = new StringTokenizer(br.readLine());
-                        int a = Integer.parseInt(st.nextToken());
-                        int b = Integer.parseInt(st.nextToken());
+			list.get(a).add(b);
+			list.get(b).add(a);
+		}
 
-                        list.get(a).add(b);
-                        list.get(b).add(a);
-                }
+		for (int i = 0; i <= n; i++) {
+			Collections.sort(list.get(i));
+		}
 
-                for (int i = 0; i <= n; i++) {
-                        Collections.sort(list.get(i));
-                }
+		DFS(v);
+		visited = new boolean[n+1];
+		sb.append("\n");
+		BFS(v);
+		System.out.println(sb);
+	}
 
-                DFS(v);
-                visited = new boolean[n+1];
-                System.out.println();
-                BFS(v);
-        }
+	public static void DFS(int indexOfNode) {
+		if (visited[indexOfNode] == true) {
+			return;
+		}
 
-        public static void DFS(int indexOfNode) {
-                if (visited[indexOfNode] == true) {
-                        return;
-                }
+		visited[indexOfNode] = true;
+		sb.append(indexOfNode).append(" ");
 
-                visited[indexOfNode] = true;
-                System.out.print(indexOfNode + " ");
+		for (int indexOfNextNode : list.get(indexOfNode)) {
+			DFS(indexOfNextNode);
+		}
+	}
 
-                for (int indexOfNextNode : list.get(indexOfNode)) {
-                        DFS(indexOfNextNode);
-                }
-        }
+	public static void BFS(int indexOfNode) {
+		queue.add(indexOfNode);
+		visited[indexOfNode] = true;
 
-        public static void BFS(int indexOfNode) {
-                Queue<Integer> queue = new LinkedList<>();
-                queue.add(indexOfNode);
-                visited[indexOfNode] = true;
+		while (queue.isEmpty() == false) {
+			int poll = queue.poll();
+			visited[poll] = true;
+			sb.append(poll).append(" ");
 
-                while (queue.isEmpty() == false) {
-                        int targetNode = queue.poll();
-                        System.out.print(targetNode + " ");
-
-
-                        for (int indexOfNextNode : list.get(targetNode)) {
-                                if (visited[indexOfNextNode] == false) {
-                                        queue.add(indexOfNextNode);
-                                        visited[indexOfNextNode] = true;
-                                }
-                        }
-                }
-        }
+			for (int indexOfNextNode : list.get(poll)) {
+				if (visited[indexOfNextNode] == true) {
+					continue;
+				} else {
+					queue.add(indexOfNextNode);
+					visited[indexOfNextNode] = true;
+				}
+			}
+		}		
+	}
 }
